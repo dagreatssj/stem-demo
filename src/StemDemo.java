@@ -1,39 +1,51 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.util.List;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class StemDemo {
     public static void main(String[] args) throws Exception {
         WebDriver webDriver = new FirefoxDriver();
 
+        // Open Firefox
         webDriver.get("http://pizzahut.com");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        webDriver.quit();
-        /*webDriver.findElement(By.id("LuckyAnchor_1422247212900_6")).click();
-        webDriver.findElement(By.id("LuckyAnchor_1422247238783_65")).click();
+        // Click the Pizza button on nav
+        webDriver.findElement(By.xpath("//li[@id='menu_pizza']/a")).click();
+
+        WebDriverWait wait = new WebDriverWait(webDriver, 30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@id='searchForm']")));
+
+        // Select delivery
+        webDriver.findElement(By.xpath("//div[@id='my-occasion-delivery']/input")).click();
+
+        // Fill out form
+        webDriver.findElement(By.id("syo-street")).clear();
+        webDriver.findElement(By.id("syo-street")).sendKeys("3157 Middlefield Road");
         webDriver.findElement(By.id("syo-city")).clear();
         webDriver.findElement(By.id("syo-city")).sendKeys("Redwood City");
         webDriver.findElement(By.id("statenames")).clear();
         webDriver.findElement(By.id("statenames")).sendKeys("CA");
-        webDriver.findElement(By.id("LuckyAnchor_1422247238783_161")).click();
-        webDriver.findElement(By.id("LuckyAnchor_1422247264367_177")).click();
-        webDriver.findElement(By.id("LuckyAnchor_1422247405573_23")).click();
-        webDriver.findElement(By.id("reg-firstname")).click();
-        webDriver.findElement(By.id("reg-firstname")).clear();
-        webDriver.findElement(By.id("reg-firstname")).sendKeys("Darrell");
-        webDriver.findElement(By.id("reg-lastname")).clear();
-        webDriver.findElement(By.id("reg-lastname")).sendKeys("Calderon");
-        webDriver.findElement(By.id("reg-email")).clear();
-        webDriver.findElement(By.id("reg-email")).sendKeys("darrellcalderon@yahoo.com");
-        webDriver.findElement(By.id("reg-re-email")).clear();
-        webDriver.findElement(By.id("reg-re-email")).sendKeys("darrellcaleron@yahoo.com");*/
+        
+        Thread.sleep(2000); // this gives a 2 second pause
+        
+        // Submit the address entered
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='submit_buttons']/div[1]")));
+        webDriver.findElement(By.xpath("//div[@id='submit_buttons']/div[1]")).click();
+
+        // Select the closest Pizza Hut
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='results-div']/div/div[3]/ul/li[11]/div")));
+        webDriver.findElement(By.xpath("//div[@id='results-div']/div/div[3]/ul/li[11]/div")).click();
+
+        // Click to add a Meat Lovers Pizza
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tile-set']/div[4]/div/div/table/tbody/tr/td[2]/form/div[2]/div[1]")));
+        webDriver.findElement(By.xpath("//div[@id='tile-set']/div[4]/div/div/table/tbody/tr/td[2]/form/div[2]/div[1]")).click();
+
+        // Checkout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='cartOverlayContainer']/table[2]/tbody/tr/td[2]/div")));
+        webDriver.findElement(By.xpath("//div[@class='cartOverlayContainer']/table[2]/tbody/tr/td[2]/div")).click();
+        
+        webDriver.quit();
     }
 }

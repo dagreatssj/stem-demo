@@ -1,3 +1,6 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -5,9 +8,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class StemDemo {
-    public static void main(String[] args) throws Exception {
-        WebDriver webDriver = new FirefoxDriver();
+    private WebDriver webDriver;
 
+    @Before
+    public void setUp() throws Exception {
+        webDriver = new FirefoxDriver();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        webDriver.quit();
+    }
+
+    @Test
+    public void testOrderingAPizzaDelivery() throws Exception {
         // Open Firefox
         webDriver.get("http://pizzahut.com");
 
@@ -27,9 +41,9 @@ public class StemDemo {
         webDriver.findElement(By.id("syo-city")).sendKeys("Redwood City");
         webDriver.findElement(By.id("statenames")).clear();
         webDriver.findElement(By.id("statenames")).sendKeys("CA");
-        
+
         Thread.sleep(2000); // this gives a 2 second pause
-        
+
         // Submit the address entered
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='submit_buttons']/div[1]")));
         webDriver.findElement(By.xpath("//div[@id='submit_buttons']/div[1]")).click();
@@ -45,7 +59,5 @@ public class StemDemo {
         // Checkout
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='cartOverlayContainer']/table[2]/tbody/tr/td[2]/div")));
         webDriver.findElement(By.xpath("//div[@class='cartOverlayContainer']/table[2]/tbody/tr/td[2]/div")).click();
-        
-        webDriver.quit();
     }
 }
